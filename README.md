@@ -3,6 +3,7 @@
 This repository demonstrates the usage of sequelize within an express application.
 The implemented logic is a simple task tracking tool.
 
+
 ## Starting the app
 
 ```
