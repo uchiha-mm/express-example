@@ -4,9 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "npm run test-unit && npm run test-integration",
-    "test-unit": "mocha test/unit/*.test.js",
-    "test-integration": "mocha test/integration/*.test.js"
+    "test": "npm run test-unit",
+    "test-unit": "mocha test/unit/*.test.js"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
