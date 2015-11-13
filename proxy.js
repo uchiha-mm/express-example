@@ -17,6 +17,9 @@ client.lpush(['servers', 'http://127.0.0.1:3000'], function(err, reply){
 client.lpush(['servers', 'http://127.0.0.1:3001'], function(err, reply){
 	console.log(reply);
 })
+client.lpush(['servers', 'http://127.0.0.1:4000'], function(err, reply){
+	console.log(reply);
+})
 
 var options = {};
 var proxy = httpProxy.createProxyServer(options);
