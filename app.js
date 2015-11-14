@@ -10,6 +10,21 @@ var users  = require('./routes/users');
 
 var app = express();
 
+app.get('/a', function(req, res){
+	res.send("<h1>\nThis page exists! and serves A\n</h1>");
+})
+
+app.get('/b', function(req, res){
+	res.send("<h1>\nThis page exists! and serves B\n</h1>");
+})
+
+app.get('/c', function(req, res){
+	res.send("<h1>\nThis page exists! and serves C\n</h1>");
+})
+
+app.get('/d', function(req, res){
+	res.send("<h1>\nThis page exists! and serves D\n</h1>");
+})
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
