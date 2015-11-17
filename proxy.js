@@ -35,10 +35,12 @@ var server = http.createServer(function(req, res){
 	client.get(req.url, function(err, value){
 	if(value)
 		console.log('The queue has elements :', value)
-		if(value == 0)
-			console.value('No server to serve this feature')
+		if(value == 0){
+			console.log('No server to serve this feature');
+			proxy.web(req, res, {target: 'http://127.0.0.1:3000'});
+		}
 		else if (value>0){
-			  client.rpop('hotqueue:server_'+req.url, function(err,value){
+			  	client.rpop('hotqueue:server_'+req.url, function(err,value){
 			  	console.log("Popped server name is : ", value); 
 			  	var ip = value.slice(2, 23)
 			  	console.log('ip now is :', ip)
