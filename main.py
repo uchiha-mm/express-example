@@ -2,6 +2,7 @@
 import redis
 import sys
 from hotqueue import HotQueue
+import subprocess
 
 q = ""
 
@@ -36,10 +37,28 @@ def main(argv) :
 
 	#					
 	# python main.py 	/a 		ON 		3000
-	# python main.py 	/a 		OFF 	3000
+	# python main.py 	/a 		OFF 		3000
 	# python main.py 	/a 		RM 		featureFlag
-	# python main.py 	3000 	RM 		server
+	# python main.py 	3000 		RM 		server
 
+
+	if len(sys.argv)==1 :
+		q = HotQueue('servers', host="localhost", port=6379, db=0)
+		while(1) :
+			x = q.get()
+			if x is None : 
+				break;		
+		output = subprocess.check_output("sudo docker ps", shell=True)
+		result = {}
+		port = {}
+		for row in output.split('\n'):
+		    if ':' in row:
+		    	#key, value = row.split(':')
+		        result = row.split(':')[1]
+		        port = result.split('-')[0]
+			q.put('http://127.0.0.1:'+port)	
+		return
+	
 	featureName = argv[1]
 	featureStatus = argv[2]
 	featureServer = argv[3]
@@ -48,7 +67,11 @@ def main(argv) :
 	featureNames = HotQueue('featureNames', host="localhost", port=6379, db=0)
 
 	r_server = redis.Redis('localhost')
+	if( not r_server.exists("initialRun")) :
+		featureNames.put('servers')
+		r_server.set("initialRun", "1")
 
+	
 	if featureStatus == "RM":
 		if featureServer == "featureFlag":
 			r_server.delete(featureName);
@@ -77,6 +100,7 @@ def main(argv) :
 				while len(k) != 0:
 					x = k.pop(0)
 					q.put(x)
+			return;
 
 	
 	if featureStatus == "ON":
